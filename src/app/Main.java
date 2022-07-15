@@ -4,8 +4,7 @@ import app.bicycles.Bicycle;
 
 public class Main {
   public static void main(String[] args) {
-    Bicycle.readBicycles();
-    for(Bicycle bici : Bicycle.bicycles) {
+    for(Bicycle bici : Bicycle.getUpdatedBicycles()) {
       System.out.println("____________________________");
       System.out.println("code: " + bici.code);
       System.out.println("type: " + bici.type);

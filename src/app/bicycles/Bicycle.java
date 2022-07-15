@@ -6,14 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class Bicycle {
+  private static final List<Bicycle> bicycles = new ArrayList<>();
   public String code;
   public BiciType type;
   public String color;
   public boolean isAvailable;
-  public static List<Bicycle> bicycles = new ArrayList<>();
 
   private Bicycle(String code, BiciType type, String color, boolean isAvailable) {
     this.code = code;
@@ -23,7 +22,7 @@ public class Bicycle {
     bicycles.add(this);
   }
 
-  public static void readBicycles() {
+  private static void readBicycles() {
     try {
       BufferedReader br = new BufferedReader(
         new FileReader(
@@ -43,6 +42,11 @@ public class Bicycle {
     } catch (IOException err) {
       err.printStackTrace();
     }
+  }
 
+  public static List<Bicycle> getUpdatedBicycles() {
+    bicycles.clear();
+    readBicycles();
+    return bicycles;
   }
 }
