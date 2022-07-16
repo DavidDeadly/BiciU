@@ -4,6 +4,7 @@ import app.bicycles.Bicycle;
 import app.db.*;
 import app.users.User;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -45,7 +46,11 @@ public class Ticket extends DBString {
   }
 
   public static String setTime() {
-    return "" + LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
+    return String.format(
+      "%02d:%2d",
+      LocalTime.now().getHour(),
+      LocalTime.now().getMinute()
+    );
   }
 
   public String toDBString() {
@@ -72,6 +77,30 @@ public class Ticket extends DBString {
     this.endTime = setTime();
     this.haveHelmet = haveHelmet;
     this.goodCondition = goodCondition;
+    this.amount = getTotalDebt();
+    if(this.amount > 0) {
+      this.status = Status.Pending;
+    } else this.status = Status.OK;
     DB.updateObjDBStatus(this, DB.urlTickets);
+  }
+
+  private int getTotalDebt() {
+    int totalDebt = 0;
+    if(!this.haveHelmet) totalDebt += 5;
+    if(!this.goodCondition) totalDebt += 5;
+    long thirtyMinutesComplete = getTimeDiffer() / 30;
+    if(thirtyMinutesComplete != 0) {
+      thirtyMinutesComplete--;
+      totalDebt += thirtyMinutesComplete * 3;
+    }
+    return totalDebt;
+  }
+
+  private long getTimeDiffer() {
+    Duration timeDiffer = Duration.between(
+      LocalTime.parse(this.startTime),
+      LocalTime.parse(this.endTime)
+    );
+    return timeDiffer.toMinutes();
   }
 }

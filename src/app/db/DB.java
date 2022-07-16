@@ -70,12 +70,7 @@ public final class DB {
       String objLine;
 
       while((objLine = br.readLine()) != null) {
-        if(objLine.contains(obj.code)){
-          System.out.println(obj.code);
-          System.out.println(url);
-          objLine = obj.toDBString();
-          System.out.println(objLine);
-        }
+        if(objLine.contains(obj.code)) objLine = obj.toDBString();
         updatedFile.add(objLine + "\n");
       }
       br.close();
