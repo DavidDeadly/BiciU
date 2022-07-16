@@ -147,7 +147,7 @@ public final class DB {
 
   public static void registerUser(User user) {
     try(BufferedWriter bw = new BufferedWriter(
-      new FileWriter(urlUsers)
+      new FileWriter(urlUsers, true)
     )) {
       bw.write(user.toDBString());
     } catch(Exception err) {

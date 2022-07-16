@@ -1,25 +1,41 @@
 package app;
 
-import app.bicycles.Bicycle;
-import app.db.DB;
-import app.tickets.Ticket;
-import app.users.User;
-
+import app.menu.Menu;
 
 public class Main {
   public static void main(String[] args) {
-//    try {
-//      User user = new User("S", "1000293315", "David", "Rueda", 19);
-//      Bicycle bicy = DB.getRandomAvailableBicycle("Road");
-//      assert bicy != null;
-//      System.out.println("Searching code: " + bicy.code);
-//      Ticket ticket1 = new Ticket(user, bicy);
-        Ticket ticket2 = DB.getTicket("T-001");
-        assert ticket2 != null;
-        ticket2.payTicket();
-//        ticket2.returnBicycle(true, false);
-//    } catch (Exception err) {
-//      System.err.println(err.getMessage());
-//    }
+    boolean seeAgain;
+    do {
+      String userOption = Menu.principal();
+      appFlow(userOption);
+      seeAgain = Menu.askYesNo("Do you want tu see the menu again?? [Y]/[N]");
+      Menu.clearConsole();
+    } while(seeAgain);
+  }
+
+  private static void appFlow(String userOption) {
+    switch (userOption) {
+      case "1":
+        Menu.registerUser();
+        break;
+      case "2":
+        System.out.println("Borrowing bicycle...");
+        break;
+      case "3":
+        System.out.println("Returning bicycle...");
+        break;
+      case "4":
+        System.out.println("Paying tickets...");
+        break;
+      case "5":
+        System.out.println("Tickets history...");
+        break;
+      case "6":
+        System.out.println("Exiting...");
+        return;
+      default:
+        System.err.println("INVALID OPTION!!");
+        System.out.println("Please select a valid option!!");
+    }
   }
 }

@@ -4,15 +4,17 @@ import app.db.*;
 import app.errors.InvalidAge;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class User extends DBString {
   private enum UserType {
     S, P
   }
-  private String name;
-  private String surname;
-  private int age;
+  private final String name;
+  private final String surname;
+  private final int age;
   private List<String> ticketDebts = new ArrayList<>();
 
   public User(String type, String dni, String name, String surname, int age) throws InvalidAge {
@@ -22,6 +24,10 @@ public class User extends DBString {
     this.surname = surname;
     this.age = age;
     DB.registerUser(this);
+  }
+
+  public int getAge() {
+    return this.age;
   }
 
   public String getfullName() {
@@ -50,5 +56,31 @@ public class User extends DBString {
       this.age,
       String.join("/", this.ticketDebts)
     );
+  }
+
+  public static String askForUserType() {
+    Scanner sc = new Scanner(System.in);
+    String question = String.format(
+      """
+            What are you??
+      (%s)tudent or (%s)rofossor
+      """,
+      UserType.S, UserType.P
+    );
+    String answer = null;
+    boolean askAgain;
+
+    do {
+      System.out.print(question);
+      answer = sc.nextLine().toUpperCase();
+      try {
+        UserType.valueOf(answer);
+        askAgain = false;
+      } catch (Exception err) {
+        System.err.println("Invalid user type");
+        askAgain = true;
+      }
+    } while (askAgain);
+    return answer;
   }
 }
