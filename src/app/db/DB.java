@@ -13,9 +13,9 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 public final class DB {
-  private static final String urlBicycles = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/bicycles.txt";
-  private static final String urlTickets = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt";
-  private static final String urlUsers = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/users.txt";
+  public static final String urlBicycles = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/bicycles.txt";
+  public static final String urlTickets = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt";
+  public static final String urlUsers = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/users.txt";
 
   static Random rand = new Random();
   public static List<Bicycle> getBicycles() {
@@ -61,20 +61,26 @@ public final class DB {
       System.err.println(err.getMessage());
     }
   }
-  public static void updateBicycleStatus(Bicycle bici) {
+  public static void updateObjDBStatus(DBString obj, String url) {
     List<String> updatedFile = new ArrayList<>();
     try {
       BufferedReader br = new BufferedReader(
-        new FileReader(urlBicycles)
+        new FileReader(url)
       );
-      String biciLine;
-      while((biciLine = br.readLine()) != null) {
-        if(biciLine.contains(bici.code)) biciLine = bici.toDBString();
-        updatedFile.add(biciLine + "\n");
+      String objLine;
+
+      while((objLine = br.readLine()) != null) {
+        if(objLine.contains(obj.code)){
+          System.out.println(obj.code);
+          System.out.println(url);
+          objLine = obj.toDBString();
+          System.out.println(objLine);
+        }
+        updatedFile.add(objLine + "\n");
       }
       br.close();
       BufferedWriter bw = new BufferedWriter(
-        new FileWriter(urlBicycles)
+        new FileWriter(url)
       );
 
       for(String line : updatedFile) {
@@ -82,7 +88,8 @@ public final class DB {
       }
       bw.close();
     } catch (Exception err) {
-      System.err.println(err.getMessage());
+      err.printStackTrace();
+//      System.err.println(err.getMessage());
     }
   }
 

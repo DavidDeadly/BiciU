@@ -1,19 +1,17 @@
 package app.tickets;
 
 import app.bicycles.Bicycle;
-import app.db.DB;
+import app.db.*;
 import app.users.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Objects;
 
-public class Ticket {
+public class Ticket extends DBString {
   enum Status {
     Active, Pending, OK
   }
   private static int numTicket = DB.nextTicketNumberCode();
-  public String code;
   public String date;
   public String startTime;
   public String user;
@@ -26,11 +24,11 @@ public class Ticket {
   public int amount = 0;
 
   public Ticket(User user, Bicycle bicy){
+    super(String.format("T-%03d", numTicket));
     this.startTime = setTime();
     this.date = LocalDate.now().toString();
     this.name = user.getfullName();
-    this.user = user.getId();
-    this.code = String.format("T-%03d", numTicket);
+    this.user = user.code;
     this.bicycle = bicy.code;
     bicy.setAvailable(false);
     DB.writeTicket(this);
@@ -38,7 +36,7 @@ public class Ticket {
   }
 
   public Ticket(String code, String bicycle, String user, String name, String date, String startTime) {
-    this.code = code;
+    super(code);
     this.bicycle = bicycle;
     this.user = user;
     this.name = name;
@@ -65,5 +63,15 @@ public class Ticket {
       this.status,
       this.amount
     );
+  }
+
+  public void returnBicycle(boolean haveHelmet, boolean goodCondition) {
+    Bicycle bicy = DB.getBicycle(this.bicycle);
+    assert bicy != null;
+    bicy.setAvailable(true);
+    this.endTime = setTime();
+    this.haveHelmet = haveHelmet;
+    this.goodCondition = goodCondition;
+    DB.updateObjDBStatus(this, DB.urlTickets);
   }
 }

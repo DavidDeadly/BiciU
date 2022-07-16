@@ -1,19 +1,18 @@
 package app.bicycles;
 
-import app.db.DB;
+import app.db.*;
 
-public class Bicycle {
+public class Bicycle extends DBString {
   public enum BiciType {
     Mountain,
     Road,
   }
-  public String code;
   public BiciType type;
   public String color;
   public boolean isAvailable;
 
   public Bicycle(String code, String type, String color, boolean isAvailable) {
-    this.code = code;
+    super(code);
     this.type = BiciType.valueOf(type);
     this.color = color;
     this.isAvailable = isAvailable;
@@ -21,7 +20,7 @@ public class Bicycle {
 
   public void setAvailable(boolean available) {
     this.isAvailable = available;
-    DB.updateBicycleStatus(this);
+    DB.updateObjDBStatus(this, DB.urlBicycles);
   }
 
   public String toDBString() {
