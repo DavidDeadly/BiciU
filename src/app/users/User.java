@@ -1,8 +1,10 @@
 package app.users;
 
+import app.db.DB;
 import app.errors.InvalidAge;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class User {
@@ -23,6 +25,7 @@ public class User {
     this.name = name;
     this.surname = surname;
     this.age = age;
+    DB.registerUser(this);
   }
 
   public String getfullName() {
@@ -31,5 +34,15 @@ public class User {
 
   public String getId() {
     return this.type + "-" + this.dni;
+  }
+
+  public String toDBString() {
+    return String.format(
+      "%s;%s;%s;%s%n",
+      this.getId(),
+      this.getfullName(),
+      this.age,
+      String.join("/", this.ticketDebts)
+    );
   }
 }

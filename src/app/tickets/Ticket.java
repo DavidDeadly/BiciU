@@ -37,6 +37,15 @@ public class Ticket {
     numTicket++;
   }
 
+  public Ticket(String code, String bicycle, String user, String name, String date, String startTime) {
+    this.code = code;
+    this.bicycle = bicycle;
+    this.user = user;
+    this.name = name;
+    this.date = date;
+    this.startTime = startTime;
+  }
+
   public static String setTime() {
     return "" + LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
   }
