@@ -9,6 +9,10 @@ import java.util.List;
 
 public class Bicycle {
   private static final List<Bicycle> bicycles = new ArrayList<>();
+  private enum BiciType {
+    Mountain,
+    Road,
+  }
   public String code;
   public BiciType type;
   public String color;
@@ -22,7 +26,7 @@ public class Bicycle {
     bicycles.add(this);
   }
 
-  private static void readBicycles() {
+  private static void readDb() {
     try {
       BufferedReader br = new BufferedReader(
         new FileReader(
@@ -46,7 +50,7 @@ public class Bicycle {
 
   public static List<Bicycle> getUpdatedBicycles() {
     bicycles.clear();
-    readBicycles();
+    readDb();
     return bicycles;
   }
 }

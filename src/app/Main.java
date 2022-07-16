@@ -1,16 +1,17 @@
 package app;
 
-import app.bicycles.Bicycle;
+import app.errors.InvalidAge;
+import app.users.User;
 
 public class Main {
   public static void main(String[] args) {
-    for(Bicycle bici : Bicycle.getUpdatedBicycles()) {
-      System.out.println("____________________________");
-      System.out.println("code: " + bici.code);
-      System.out.println("type: " + bici.type);
-      System.out.println("color: " + bici.color);
-      System.out.println("isAvailable: " + bici.isAvailable);
-      System.out.println("----------------------------");
+    try {
+      User david = new User("Studen", "1000293315", "David", "Rueda", 19);
+      System.out.println(david.id);
+      System.out.println(david.name + " " + david.surname);
+      System.out.println(david.age);
+    } catch (InvalidAge err) {
+      System.err.println(err.getMessage());
     }
   }
 }
