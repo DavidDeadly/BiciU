@@ -1,5 +1,6 @@
 package app.tickets;
 
+import app.db.DB;
 import app.users.User;
 
 import java.time.LocalDate;
@@ -23,12 +24,13 @@ public class Ticket {
   public int amount = 0;
 
 
-  public Ticket(User user){
+  public Ticket(User user, String typeBici){
     this.startTime = setTime();
     this.date = LocalDate.now().toString();
     this.name = user.getfullName();
     this.user = user.getId();
     this.code = String.format("T-%03d", numTicket);
+    this.bicycle = DB.getRandomAvailableBicycle(typeBici).code;
     numTicket++;
   }
 
