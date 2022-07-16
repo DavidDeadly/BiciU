@@ -5,6 +5,9 @@ out/
 **/.idea/workspace.xml
 **/.idea/tasks.xml
 
+#dev
+tickets.txt
+
 ### Eclipse ###
 .apt_generated
 .classpath

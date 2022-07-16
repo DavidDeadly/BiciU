@@ -1,10 +1,9 @@
 package app.db;
 
 import app.bicycles.Bicycle;
+import app.tickets.Ticket;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,5 +45,16 @@ public final class DB {
       return bicycles.get(rand.nextInt(quantity));
     }
     return null;
+  }
+
+  public static void writeTicket(Ticket ticket) {
+    try(BufferedWriter bw = new BufferedWriter(
+            new FileWriter("/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt", true)
+    )) {
+      System.out.println(ticket.toString());
+      bw.write(ticket.toDBString());
+    } catch (Exception err) {
+      System.err.println(err.getMessage());
+    }
   }
 }
