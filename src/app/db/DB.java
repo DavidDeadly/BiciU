@@ -39,6 +39,7 @@ public final class DB {
     List<Bicycle> bicycles = getBicycles();
     Bicycle.BiciType biciType = Bicycle.BiciType.valueOf(type);
     bicycles.removeIf(bicycle -> !bicycle.isAvailable);
+    System.out.println(bicycles.size());
     bicycles.removeIf(bicycle -> bicycle.type != biciType);
     int quantity;
     if((quantity = bicycles.size()) != 0) {
@@ -51,8 +52,31 @@ public final class DB {
     try(BufferedWriter bw = new BufferedWriter(
             new FileWriter("/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt", true)
     )) {
-      System.out.println(ticket.toString());
       bw.write(ticket.toDBString());
+    } catch (Exception err) {
+      System.err.println(err.getMessage());
+    }
+  }
+  public static void updateBicycleStatus(Bicycle bici) {
+    List<String> updatedFile = new ArrayList<>();
+    try {
+      BufferedReader br = new BufferedReader(
+              new FileReader("/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/bicycles.txt")
+      );
+      String biciLine;
+      while((biciLine = br.readLine()) != null) {
+        if(biciLine.contains(bici.code)) biciLine = bici.toDBString();
+        updatedFile.add(biciLine + "\n");
+      }
+      br.close();
+      BufferedWriter bw = new BufferedWriter(
+        new FileWriter("/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/bicycles.txt")
+      );
+
+      for(String line : updatedFile) {
+        bw.write(line);
+      }
+      bw.close();
     } catch (Exception err) {
       System.err.println(err.getMessage());
     }

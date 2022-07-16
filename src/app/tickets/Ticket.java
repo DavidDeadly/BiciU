@@ -32,6 +32,7 @@ public class Ticket {
     this.user = user.getId();
     this.code = String.format("T-%03d", numTicket);
     this.bicycle = bicy.code;
+    bicy.setAvailable(false);
     DB.writeTicket(this);
     numTicket++;
   }
