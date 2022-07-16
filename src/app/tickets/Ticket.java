@@ -12,7 +12,7 @@ public class Ticket {
   enum Status {
     Active, Pending, OK
   }
-  private static int numTicket = 1;
+  private static int numTicket = DB.nextTicketNumberCode();
   public String code;
   public String date;
   public String startTime;

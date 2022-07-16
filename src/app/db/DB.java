@@ -81,4 +81,21 @@ public final class DB {
       System.err.println(err.getMessage());
     }
   }
+
+  public static int nextTicketNumberCode() {
+    int codeNumber = 0;
+    try(BufferedReader br = new BufferedReader(
+            new FileReader("/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt")
+    )) {
+      String ticketLine;
+      while((ticketLine = br.readLine()) != null) {
+        codeNumber = Integer.parseInt(ticketLine.split(";")[0].split("-")[1]);
+      }
+      return ++codeNumber;
+    } catch (Exception err) {
+//      System.err.println(err.getMessage());
+      System.err.println("NO TICKET DATABASE, CREATING ONE....");
+    }
+    return ++codeNumber;
+  }
 }

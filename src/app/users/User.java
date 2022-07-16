@@ -2,6 +2,9 @@ package app.users;
 
 import app.errors.InvalidAge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
   private enum UserType {
     S, P
@@ -11,6 +14,7 @@ public class User {
   private String name;
   private String surname;
   public int age;
+  public List<String> ticketDebts = new ArrayList<>();
 
   public User(String type, String dni, String name, String surname, int age) throws InvalidAge {
     if(age <= 18) throw new InvalidAge("You must be 18 or older!!");
