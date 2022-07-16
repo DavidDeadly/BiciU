@@ -71,7 +71,7 @@ public final class DB {
 
       while((objLine = br.readLine()) != null) {
         if(objLine.contains(obj.code)) objLine = obj.toDBString();
-        updatedFile.add(objLine + "\n");
+        updatedFile.add(objLine);
       }
       br.close();
       BufferedWriter bw = new BufferedWriter(
@@ -99,8 +99,8 @@ public final class DB {
       }
       return ++codeNumber;
     } catch (Exception err) {
-//      System.err.println(err.getMessage());
-      System.err.println("NO TICKET DATABASE, CREATING ONE....");
+      System.err.println(err.getMessage());
+//      System.err.println("NO TICKET DATABASE, CREATING ONE....");
     }
     return ++codeNumber;
   }
@@ -111,12 +111,18 @@ public final class DB {
     )) {
       Stream<String> stringStream = br.lines().filter(l -> l.contains(code));
       ArrayList<String> ticketData = new ArrayList<>(Arrays.asList(stringStream.toList().get(0).split(";")));
+//      T-001;BIC-17;S-1000293315;David Rueda;2022-07-16;13:15;null;true;true;OK;0
       String bicycle = ticketData.get(1);
       String user = ticketData.get(2);
       String name = ticketData.get(3);
       String date = ticketData.get(4);
       String startTime = ticketData.get(5);
-      return new Ticket(code, bicycle, user, name, date, startTime);
+      String endTime = ticketData.get(6);
+      boolean haveHelmet = Boolean.parseBoolean(ticketData.get(7));
+      boolean goodCondition = Boolean.parseBoolean(ticketData.get(8));
+      Ticket.Status status = Ticket.Status.valueOf(ticketData.get(9));
+      int amout = Integer.parseInt(ticketData.get(10));
+      return new Ticket(code, bicycle, user, name, date, startTime, endTime, haveHelmet, goodCondition, status, amout);
     } catch(Exception err) {
       System.err.println(err.getMessage());
     }

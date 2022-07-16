@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Ticket extends DBString {
-  enum Status {
+  public enum Status {
     Active, Pending, OK
   }
   private static int numTicket = DB.nextTicketNumberCode();
@@ -36,18 +36,23 @@ public class Ticket extends DBString {
     numTicket++;
   }
 
-  public Ticket(String code, String bicycle, String user, String name, String date, String startTime) {
+  public Ticket(String code, String bicycle, String user, String name, String date, String startTime, String endTime, boolean haveHelmet, boolean goodCondition, Status status, int amount) {
     super(code);
     this.bicycle = bicycle;
     this.user = user;
     this.name = name;
     this.date = date;
     this.startTime = startTime;
+    this.endTime = endTime;
+    this.status = status;
+    this.haveHelmet = haveHelmet;
+    this.goodCondition = goodCondition;
+    this.amount = amount;
   }
 
   public static String setTime() {
     return String.format(
-      "%02d:%2d",
+      "%02d:%02d",
       LocalTime.now().getHour(),
       LocalTime.now().getMinute()
     );
@@ -80,8 +85,19 @@ public class Ticket extends DBString {
     this.amount = getTotalDebt();
     if(this.amount > 0) {
       this.status = Status.Pending;
+      User usr = DB.getUser(this.user);
+      assert usr != null;
+      usr.addDebt(this.code);
     } else this.status = Status.OK;
     DB.updateObjDBStatus(this, DB.urlTickets);
+  }
+
+  public void payTicket() {
+    this.status = Status.OK;
+    DB.updateObjDBStatus(this, DB.urlTickets);
+    User usr = DB.getUser(this.user);
+    assert usr != null;
+    usr.removeDebt(this.code);
   }
 
   private int getTotalDebt() {
@@ -99,7 +115,7 @@ public class Ticket extends DBString {
   private long getTimeDiffer() {
     Duration timeDiffer = Duration.between(
       LocalTime.parse(this.startTime),
-      LocalTime.parse(this.endTime)
+      LocalTime.parse("14:45")
     );
     return timeDiffer.toMinutes();
   }

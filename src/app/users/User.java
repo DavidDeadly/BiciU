@@ -10,18 +10,14 @@ public class User extends DBString {
   private enum UserType {
     S, P
   }
-  private UserType type;
-  private String dni;
   private String name;
   private String surname;
-  public int age;
-  public List<String> ticketDebts = new ArrayList<>();
+  private int age;
+  private List<String> ticketDebts = new ArrayList<>();
 
   public User(String type, String dni, String name, String surname, int age) throws InvalidAge {
-    super(type + "-" + dni);
+    super(UserType.valueOf(type) + "-" + dni);
     if(age <= 18) throw new InvalidAge("You must be 18 or older!!");
-    this.type = UserType.valueOf(type);
-    this.dni = dni;
     this.name = name;
     this.surname = surname;
     this.age = age;
@@ -30,6 +26,20 @@ public class User extends DBString {
 
   public String getfullName() {
     return this.name + " " + this.surname;
+  }
+
+  public void addDebt(String ticketCode) {
+    ticketDebts.add(ticketCode);
+    DB.updateObjDBStatus(this, DB.urlUsers);
+  }
+
+  public void removeDebt(String ticketCode) {
+    ticketDebts.remove(ticketCode);
+    DB.updateObjDBStatus(this, DB.urlUsers);
+  }
+
+  public boolean isInDebt() {
+    return !this.ticketDebts.isEmpty();
   }
 
   public String toDBString() {

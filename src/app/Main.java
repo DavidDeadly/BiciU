@@ -15,8 +15,9 @@ public class Main {
 //      System.out.println("Searching code: " + bicy.code);
 //      Ticket ticket1 = new Ticket(user, bicy);
         Ticket ticket2 = DB.getTicket("T-001");
-        ticket2.returnBicycle(true, true);
-        System.out.println(ticket2.toDBString());
+        assert ticket2 != null;
+        ticket2.payTicket();
+//        ticket2.returnBicycle(true, false);
 //    } catch (Exception err) {
 //      System.err.println(err.getMessage());
 //    }
