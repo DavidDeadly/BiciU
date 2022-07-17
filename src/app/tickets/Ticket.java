@@ -1,14 +1,14 @@
 package app.tickets;
 
 import app.bicycles.Bicycle;
-import app.db.*;
+import app.db.DB;
 import app.users.User;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Ticket extends DBString {
+public class Ticket extends DB {
   public enum Status {
     Active, Pending, OK
   }
@@ -122,6 +122,10 @@ public class Ticket extends DBString {
 
   public boolean alreadyReturn() {
     return this.status != Status.Active;
+  }
+
+  public boolean alreadyOK() {
+    return this.status == Status.OK;
   }
 
   public void consolePresentation(String titleMessage) {

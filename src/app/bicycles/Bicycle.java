@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import java.util.Scanner;
 
-public class Bicycle extends DBString {
+public class Bicycle extends DB {
   public enum BiciType {
     Mountain,
     Road,

@@ -12,11 +12,17 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public final class DB {
+public abstract class DB {
   public static final String urlBicycles = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/bicycles.txt";
   public static final String urlTickets = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/tickets.txt";
   public static final String urlUsers = "/home/daviddeadly/Dev/Sofka/BiciU/src/app/db/users.txt";
+  public String code;
 
+  public abstract String toDBString();
+
+  protected DB(String code) {
+    this.code = code;
+  }
   static Random rand = new Random();
   private static List<Bicycle> getBicycles() {
     List<Bicycle> bicycles = new ArrayList<>();
@@ -77,7 +83,7 @@ public final class DB {
       System.err.println(err.getMessage());
     }
   }
-  public static void updateObjDBStatus(DBString obj, String url) {
+  public static void updateObjDBStatus(DB obj, String url) {
     List<String> updatedFile = new ArrayList<>();
     try {
       BufferedReader br = new BufferedReader(

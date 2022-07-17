@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class User extends DBString {
+public class User extends DB {
   private enum UserType {
     S, P
   }
@@ -75,7 +75,7 @@ public class User extends DBString {
     String question = String.format(
       """
             What are you??
-      (%s)tudent or (%s)rofossor
+      (%s)tudent or (%s)rofessor
       """,
       UserType.S, UserType.P
     );

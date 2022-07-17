@@ -61,7 +61,7 @@ public final class Menu {
 
   public static String borrowBicycle() {
     Scanner sc = new Scanner(System.in);
-    System.out.print("Enter ID: ");
+    System.out.print("Enter User ID: ");
     String id = sc.nextLine().toUpperCase();
     User user = DB.getUser(id);
     String checkMsg = userChecks(user);
@@ -73,7 +73,7 @@ public final class Menu {
 
   public static String returnBicycle() {
     Ticket ticket = getTicket();
-    String checkMsg = ticketChecks(ticket);
+    String checkMsg = returnChecks(ticket);
 
     if(checkMsg != null) return checkMsg;
 
@@ -87,10 +87,9 @@ public final class Menu {
 
   public static String payTicket() {
     Ticket ticket = getTicket();
-    if(ticket == null) {
-      System.err.println("Apparently that ticket doesn't exist!");
-      return "Try another one!";
-    }
+    String checkMsg = payChecks(ticket);
+    if(checkMsg !=  null)  return checkMsg;
+    assert ticket != null;
     ticket.consolePresentation("Ticket to pay!!");
     boolean wantsPay = Main.askYesNo("Proceed paymanet?? [Y]/[N]");
     if(!wantsPay) return null;
@@ -180,13 +179,26 @@ public final class Menu {
     return null;
   }
 
-  private static String ticketChecks(Ticket ticket) {
+  private static String returnChecks(Ticket ticket) {
     if(ticket == null) {
       System.err.println("Apparently that ticket doesn't exist!");
       return "Try another one!";
     }
 
     if(ticket.alreadyReturn()) return "This ticket was already returned. Look for it at the history!";
+
+    return null;
+  }
+
+  private static String payChecks(Ticket ticket) {
+    if(ticket == null) {
+      System.err.println("Apparently that ticket doesn't exist!");
+      return "Try another one!";
+    }
+
+    if(ticket.alreadyOK()) return "This ticket is already OK!";
+
+    if(!ticket.alreadyReturn()) return "This ticket is still active. Return the bike first";
 
     return null;
   }
