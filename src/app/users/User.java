@@ -26,6 +26,14 @@ public class User extends DBString {
     DB.registerUser(this);
   }
 
+  public User(String code, String fullName, int age) {
+    super(code);
+    String[] fName = fullName.split(" ");
+    this.name = fName[0];
+    this.surname = fName[1];
+    this.age = age;
+  }
+
   public int getAge() {
     return this.age;
   }

@@ -30,9 +30,9 @@ public final class Menu {
       System.out.println("Insert your dni:");
       String dni = sc.nextLine();
       System.out.println("What's your name:");
-      String name = sc.nextLine();
+      String name = sc.nextLine().trim();
       System.out.println("What's your surname:");
-      String surname = sc.nextLine();
+      String surname = sc.nextLine().trim();
       System.out.println("How old are you??");
       int age = sc.nextInt();
 

@@ -162,13 +162,9 @@ public final class DB {
       List<String> strings = br.lines().filter(l -> l.contains(code)).toList();
       if(!strings.isEmpty()) {
         ArrayList<String> userData = new ArrayList<>(Arrays.asList(strings.get(0).split(";")));
-        String type = String.valueOf(userData.get(0).charAt(0));
-        String dni = userData.get(0).substring(2);
-        String[] fullName = userData.get(1).split(" ");
-        String name = fullName[0];
-        String surname = fullName[1];
+        String fullName = userData.get(1);
         int age = Integer.parseInt(userData.get(2));
-        return new User(type, dni, name, surname, age);
+        return new User(code, fullName, age);
       }
     } catch(Exception err) {
       System.err.println(err.getMessage());
