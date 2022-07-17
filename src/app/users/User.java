@@ -47,6 +47,10 @@ public class User extends DBString {
     DB.updateObjDBStatus(this, DB.urlUsers);
   }
 
+  public void loadDebts(String[] debts) {
+    ticketDebts.addAll(Arrays.asList(debts));
+  }
+
   public void removeDebt(String ticketCode) {
     ticketDebts.remove(ticketCode);
     DB.updateObjDBStatus(this, DB.urlUsers);

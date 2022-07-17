@@ -164,7 +164,12 @@ public final class DB {
         ArrayList<String> userData = new ArrayList<>(Arrays.asList(strings.get(0).split(";")));
         String fullName = userData.get(1);
         int age = Integer.parseInt(userData.get(2));
-        return new User(code, fullName, age);
+        User user = new User(code, fullName, age);
+        if (userData.size() == 4) {
+          String[] debts = userData.get(3).split("/");
+          user.loadDebts(debts);
+        }
+        return user;
       }
     } catch(Exception err) {
       System.err.println(err.getMessage());
