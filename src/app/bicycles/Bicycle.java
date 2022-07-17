@@ -1,6 +1,10 @@
 package app.bicycles;
 
 import app.db.*;
+import app.users.User;
+import java.util.Objects;
+
+import java.util.Scanner;
 
 public class Bicycle extends DBString {
   public enum BiciType {
@@ -31,5 +35,27 @@ public class Bicycle extends DBString {
       this.color,
       this.isAvailable
     );
+  }
+
+  public static String askForBikeType() {
+    Scanner sc = new Scanner(System.in);
+    String question = String.format(
+            "Choose a bike type %s-(M) or %s-(R): ",
+            BiciType.Mountain, BiciType.Road
+    );
+    String answer;
+
+    do {
+      System.out.print(question);
+      answer = sc.nextLine().toUpperCase();
+      if("M".equals(answer) || "R".equals(answer)) {
+        String mont = BiciType.Mountain.name();
+        String road = BiciType.Road.name();
+        answer = Objects.equals(answer, String.valueOf(mont.charAt(0))) ?
+        mont : road;
+        break;
+      }
+    } while (true);
+    return answer;
   }
 }

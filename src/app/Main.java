@@ -2,6 +2,7 @@ package app;
 
 import app.menu.Menu;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -9,36 +10,31 @@ public class Main {
     boolean seeAgain;
     do {
       String userOption = Menu.principal();
+      if(Objects.equals(userOption, "6")) break;
       String message = appFlow(userOption);
       if(message != null ) System.out.println(message);
       seeAgain = askYesNo("Do you want tu see the menu again?? [Y]/[N]");
       Menu.clearConsole();
     } while(seeAgain);
+
+    System.out.println("Exiting...");
+    System.exit(0);
   }
 
   private static String appFlow(String userOption) {
+    String msg = null;
     switch (userOption) {
-      case "1":
-        return Menu.registerUser();
-      case "2":
-        return Menu.borrowBicycle();
-      case "3":
-        System.out.println("Returning bicycle...");
-        break;
-      case "4":
-        System.out.println("Paying tickets...");
-        break;
-      case "5":
-        System.out.println("Tickets history...");
-        break;
-      case "6":
-        System.out.println("Exiting...");
-        break;
-      default:
+      case "1" -> msg = Menu.registerUser();
+      case "2" -> msg = Menu.borrowBicycle();
+      case "3" -> System.out.println("Returning bicycle...");
+      case "4" -> System.out.println("Paying tickets...");
+      case "5" -> System.out.println("Tickets history...");
+      default -> {
         System.err.println("INVALID OPTION!!");
-        return "Please select a valid option!!";
+        msg = "Please select a valid option!!";
+      }
     }
-    return null;
+    return msg;
   }
 
   public static boolean askYesNo(String question) {

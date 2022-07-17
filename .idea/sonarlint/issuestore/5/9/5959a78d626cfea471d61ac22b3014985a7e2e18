@@ -1,10 +1,0 @@
-
-k
-java:S1104
-"PMake type a static final constant or non-public and provide accessors if needed.(ÖŸ”×ÿÿÿÿÿ
-l
-java:S1104"QMake color a static final constant or non-public and provide accessors if needed.(æ®þôûÿÿÿÿ
-m
-java:S1104"WMake isAvailable a static final constant or non-public and provide accessors if needed.(ù’ôÿ
-o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(˜Ú„Å
-o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(þØÃÄ

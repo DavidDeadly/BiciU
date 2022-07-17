@@ -70,8 +70,8 @@ public final class DB {
       String objLine;
 
       while((objLine = br.readLine()) != null) {
-        if(objLine.contains(obj.code)) objLine = obj.toDBString();
-        updatedFile.add(objLine);
+        if(objLine.contains(obj.code)) updatedFile.add(obj.toDBString());
+        else updatedFile.add(objLine + "\n");
       }
       br.close();
       BufferedWriter bw = new BufferedWriter(
@@ -83,8 +83,7 @@ public final class DB {
       }
       bw.close();
     } catch (Exception err) {
-      err.printStackTrace();
-//      System.err.println(err.getMessage());
+      System.err.println(err.getMessage());
     }
   }
 
@@ -98,9 +97,7 @@ public final class DB {
         codeNumber = Integer.parseInt(ticketLine.split(";")[0].split("-")[1]);
       }
       return ++codeNumber;
-    } catch (Exception err) {
-      System.err.println(err.getMessage());
-//      System.err.println("NO TICKET DATABASE, CREATING ONE....");
+    } catch (Exception ignored) {
     }
     return ++codeNumber;
   }
@@ -111,7 +108,6 @@ public final class DB {
     )) {
       Stream<String> stringStream = br.lines().filter(l -> l.contains(code));
       ArrayList<String> ticketData = new ArrayList<>(Arrays.asList(stringStream.toList().get(0).split(";")));
-//      T-001;BIC-17;S-1000293315;David Rueda;2022-07-16;13:15;null;true;true;OK;0
       String bicycle = ticketData.get(1);
       String user = ticketData.get(2);
       String name = ticketData.get(3);
@@ -121,8 +117,8 @@ public final class DB {
       boolean haveHelmet = Boolean.parseBoolean(ticketData.get(7));
       boolean goodCondition = Boolean.parseBoolean(ticketData.get(8));
       Ticket.Status status = Ticket.Status.valueOf(ticketData.get(9));
-      int amout = Integer.parseInt(ticketData.get(10));
-      return new Ticket(code, bicycle, user, name, date, startTime, endTime, haveHelmet, goodCondition, status, amout);
+      int amount = Integer.parseInt(ticketData.get(10));
+      return new Ticket(code, bicycle, user, name, date, startTime, endTime, haveHelmet, goodCondition, status, amount);
     } catch(Exception err) {
       System.err.println(err.getMessage());
     }
