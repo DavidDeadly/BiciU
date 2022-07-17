@@ -120,6 +120,10 @@ public class Ticket extends DBString {
     return timeDiffer.toMinutes();
   }
 
+  public boolean alreadyReturn() {
+    return this.status != Status.Active;
+  }
+
   public void consolePresentation(String titleMessage) {
     System.out.printf(
       """
@@ -143,7 +147,7 @@ public class Ticket extends DBString {
       this.name,
       this.date,
       this.startTime,
-      this.endTime,
+      this.endTime == null ? "-" : this.endTime,
       this.haveHelmet,
       this.goodCondition,
       this.status,

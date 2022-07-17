@@ -73,12 +73,13 @@ public final class Menu {
 
   public static String returnBicycle() {
     Ticket ticket = getTicket();
-    if(ticket == null) {
-      System.err.println("Apparently that ticket doesn't exist!");
-      return "Try another one!";
-    }
+    String checkMsg = ticketChecks(ticket);
+
+    if(checkMsg != null) return checkMsg;
+
     boolean haveHelmet = Main.askYesNo("The bicycle has its helmet?? [Y]/[N]");
     boolean goodCondition = Main.askYesNo("The bicycle & the helmet are in good conditions?? [Y]/[N]");
+    assert ticket != null;
     ticket.returnBicycle(haveHelmet, goodCondition);
     ticket.consolePresentation("\nTicket updated!");
     return null;
@@ -90,11 +91,11 @@ public final class Menu {
       System.err.println("Apparently that ticket doesn't exist!");
       return "Try another one!";
     }
-    ticket.consolePresentation("Ticket to pay!");
+    ticket.consolePresentation("Ticket to pay!!");
     boolean wantsPay = Main.askYesNo("Proceed paymanet?? [Y]/[N]");
     if(!wantsPay) return null;
     ticket.payTicket();
-    ticket.consolePresentation("\nTicket updated!:");
+    ticket.consolePresentation("\nTicket updated!!");
     return null;
   }
 
@@ -162,6 +163,7 @@ public final class Menu {
     Scanner sc = new Scanner(System.in);
     System.out.print("Enter ticket ID: ");
     String id = sc.nextLine().toUpperCase();
+    if(id.length() == 0) return null;
     return DB.getTicket(id);
   }
 
@@ -178,6 +180,17 @@ public final class Menu {
     return null;
   }
 
+  private static String ticketChecks(Ticket ticket) {
+    if(ticket == null) {
+      System.err.println("Apparently that ticket doesn't exist!");
+      return "Try another one!";
+    }
+
+    if(ticket.alreadyReturn()) return "This ticket was already returned. Look for it at the history!";
+
+    return null;
+  }
+
   private static String generateTicket(User user) {
     String type = Bicycle.askForBikeType();
     Bicycle bike = DB.getRandomAvailableBicycle(type);
@@ -190,7 +203,6 @@ public final class Menu {
       Code: %s
       Type: %s
       Color: %s
-      %n
       """, bike.code, bike.type, bike.color
     );
 

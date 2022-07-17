@@ -43,7 +43,6 @@ public final class DB {
     List<Bicycle> bicycles = getBicycles();
     Bicycle.BiciType biciType = Bicycle.BiciType.valueOf(type);
     bicycles.removeIf(bicycle -> !bicycle.isAvailable);
-    System.out.println(bicycles.size());
     bicycles.removeIf(bicycle -> bicycle.type != biciType);
     int quantity;
     if((quantity = bicycles.size()) != 0) {

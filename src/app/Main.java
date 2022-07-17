@@ -13,7 +13,7 @@ public class Main {
       if(Objects.equals(userOption, "6")) break;
       String message = appFlow(userOption);
       if(message != null ) System.out.println(message);
-      seeAgain = askYesNo("Do you want tu see the menu again?? [Y]/[N]");
+      seeAgain = askYesNo("Do you want to see the menu again?? [Y]/[N]");
       Menu.clearConsole();
     } while(seeAgain);
 
