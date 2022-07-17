@@ -67,7 +67,7 @@ public class User extends DBString {
       """,
       UserType.S, UserType.P
     );
-    String answer = null;
+    String answer;
     boolean askAgain;
 
     do {

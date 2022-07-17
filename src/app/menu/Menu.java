@@ -1,13 +1,13 @@
 package app.menu;
 
+import app.db.DB;
 import app.users.User;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public final class Menu {
-
   public static String principal() {
+    Scanner sc = new Scanner(System.in);
     System.out.println(
       """
       1. Register User
@@ -18,15 +18,14 @@ public final class Menu {
       6. Exit
       """
     );
-    Scanner sc = new Scanner(System.in);
     return sc.nextLine();
   }
 
-  public static void registerUser() {
+  public static String registerUser() {
     clearConsole();
     try {
-      System.out.println("Please fill these fields...");
       Scanner sc = new Scanner(System.in);
+      System.out.println("Please fill these fields...");
       String type = User.askForUserType();
       System.out.println("Insert your dni:");
       String dni = sc.nextLine();
@@ -38,38 +37,36 @@ public final class Menu {
       int age = sc.nextInt();
 
       User user = new User(type, dni, name, surname, age);
-
-      System.out.println(
-        String.format(
-          """
-            ¡Register Completed!
-            
-            ID: %s
-            Name: %s
-            Age: %d
-          """, user.code, user.getfullName(), user.getAge()
-        )
+      return String.format(
+              """
+                ¡Register Completed!
+                
+                ID: %s
+                Name: %s
+                Age: %d
+              """, user.code, user.getfullName(), user.getAge()
       );
 
     } catch (Exception err) {
       System.err.println("There was an error creating the user!! Try again");
       System.err.println("Error: " + err.getMessage());
     }
-
+    return null;
   }
 
-  public static boolean askYesNo(String question) {
-    Scanner input = new Scanner(System.in);
-    String answer;
-    boolean askAgain;
+  public static String borrowBicycle() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter ID: ");
+    String id = sc.nextLine().toUpperCase();
+    User user = DB.getUser(id);
+    if(user == null) {
+      System.err.println("Apparently that user doesn't exist!");
+      return "Try another one!";
+    }
 
-    do {
-      System.out.print(question);
-      answer = input.nextLine().trim().toUpperCase();
-      askAgain = !"Y".equals(answer) && !"N".equals(answer);
-    } while (askAgain);
+    System.out.println(user.toDBString());
 
-    return "Y".equals(answer);
+    return null;
   }
 
   public static void clearConsole() {
