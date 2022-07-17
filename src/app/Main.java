@@ -26,7 +26,7 @@ public class Main {
     switch (userOption) {
       case "1" -> msg = Menu.registerUser();
       case "2" -> msg = Menu.borrowBicycle();
-      case "3" -> System.out.println("Returning bicycle...");
+      case "3" -> msg = Menu.returnBicycle();
       case "4" -> System.out.println("Paying tickets...");
       case "5" -> System.out.println("Tickets history...");
       default -> {

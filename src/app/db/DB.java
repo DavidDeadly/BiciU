@@ -106,19 +106,21 @@ public final class DB {
     try(BufferedReader br = new BufferedReader(
       new FileReader(urlTickets)
     )) {
-      Stream<String> stringStream = br.lines().filter(l -> l.contains(code));
-      ArrayList<String> ticketData = new ArrayList<>(Arrays.asList(stringStream.toList().get(0).split(";")));
-      String bicycle = ticketData.get(1);
-      String user = ticketData.get(2);
-      String name = ticketData.get(3);
-      String date = ticketData.get(4);
-      String startTime = ticketData.get(5);
-      String endTime = ticketData.get(6);
-      boolean haveHelmet = Boolean.parseBoolean(ticketData.get(7));
-      boolean goodCondition = Boolean.parseBoolean(ticketData.get(8));
-      Ticket.Status status = Ticket.Status.valueOf(ticketData.get(9));
-      int amount = Integer.parseInt(ticketData.get(10));
-      return new Ticket(code, bicycle, user, name, date, startTime, endTime, haveHelmet, goodCondition, status, amount);
+      List<String> strings = br.lines().filter(l -> l.contains(code)).toList();
+      if(!strings.isEmpty()) {
+        ArrayList<String> ticketData = new ArrayList<>(Arrays.asList(strings.get(0).split(";")));
+        String bicycle = ticketData.get(1);
+        String user = ticketData.get(2);
+        String name = ticketData.get(3);
+        String date = ticketData.get(4);
+        String startTime = ticketData.get(5);
+        String endTime = ticketData.get(6);
+        boolean haveHelmet = Boolean.parseBoolean(ticketData.get(7));
+        boolean goodCondition = Boolean.parseBoolean(ticketData.get(8));
+        Ticket.Status status = Ticket.Status.valueOf(ticketData.get(9));
+        int amount = Integer.parseInt(ticketData.get(10));
+        return new Ticket(code, bicycle, user, name, date, startTime, endTime, haveHelmet, goodCondition, status, amount);
+      }
     } catch(Exception err) {
       System.err.println(err.getMessage());
     }

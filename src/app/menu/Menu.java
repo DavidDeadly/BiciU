@@ -1,5 +1,6 @@
 package app.menu;
 
+import app.Main;
 import app.bicycles.Bicycle;
 import app.db.DB;
 import app.tickets.Ticket;
@@ -68,6 +69,26 @@ public final class Menu {
     return generateTicket(user);
   }
 
+  public static String returnBicycle() {
+    Ticket ticket = getTicket();
+    if(ticket == null) {
+      System.err.println("Apparently that ticket doesn't exist!");
+      return "Try another one!";
+    }
+    boolean haveHelmet = Main.askYesNo("The bicycle has its helmet?? [Y]/[N]");
+    boolean goodCondition = Main.askYesNo("The bicycle & the helmet are in good conditions?? [Y]/[N]");
+    ticket.returnBicycle(haveHelmet, goodCondition);
+    ticket.consolePresentation("\nTicket updated");
+    return null;
+  }
+
+  private static Ticket getTicket() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter ticket ID: ");
+    String id = sc.nextLine().toUpperCase();
+    return DB.getTicket(id);
+  }
+
   private static String userChecks(User user) {
     if(user == null) {
       System.err.println("Apparently that user doesn't exist!");
@@ -98,36 +119,7 @@ public final class Menu {
     );
 
     Ticket ticket = new Ticket(user, bike);
-
-    System.out.printf(
-      """
-      A Ticket was generated!
-      Code: %s
-      Bicycle: %s
-      User: %s
-      Name: %s
-      Date: %s
-      Start Time: %s
-      End Time: %s
-      Have helmet: %s
-      Good condition: %s
-      Status: %s
-      amount: %d
-      %n
-      """,
-      ticket.code,
-      ticket.bicycle,
-      ticket.user,
-      ticket.name,
-      ticket.date,
-      ticket.startTime,
-      ticket.endTime,
-      ticket.haveHelmet,
-      ticket.goodCondition,
-      ticket.status,
-      ticket.amount
-      );
-
+    ticket.consolePresentation("A ticket was generated");
     return null;
   }
 

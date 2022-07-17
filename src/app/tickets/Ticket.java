@@ -115,8 +115,40 @@ public class Ticket extends DBString {
   private long getTimeDiffer() {
     Duration timeDiffer = Duration.between(
       LocalTime.parse(this.startTime),
-      LocalTime.parse("14:45")
+      LocalTime.parse(this.endTime)
     );
     return timeDiffer.toMinutes();
+  }
+
+  public void consolePresentation(String titleMessage) {
+    System.out.printf(
+      """
+        %s
+        Code: %s
+        Bicycle: %s
+        User: %s
+        Name: %s
+        Date: %s
+        Start Time: %s
+        End Time: %s
+        Have helmet: %s
+        Good condition: %s
+        Status: %s
+        amount: %d
+        %n
+      """,
+      titleMessage,
+      this.code,
+      this.bicycle,
+      this.user,
+      this.name,
+      this.date,
+      this.startTime,
+      this.endTime,
+      this.haveHelmet,
+      this.goodCondition,
+      this.status,
+      this.amount
+    );
   }
 }
