@@ -123,7 +123,7 @@ public class Ticket extends DBString {
   public void consolePresentation(String titleMessage) {
     System.out.printf(
       """
-        %s
+      %s
         Code: %s
         Bicycle: %s
         User: %s
@@ -135,7 +135,6 @@ public class Ticket extends DBString {
         Good condition: %s
         Status: %s
         amount: %d
-        %n
       """,
       titleMessage,
       this.code,

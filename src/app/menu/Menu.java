@@ -78,7 +78,21 @@ public final class Menu {
     boolean haveHelmet = Main.askYesNo("The bicycle has its helmet?? [Y]/[N]");
     boolean goodCondition = Main.askYesNo("The bicycle & the helmet are in good conditions?? [Y]/[N]");
     ticket.returnBicycle(haveHelmet, goodCondition);
-    ticket.consolePresentation("\nTicket updated");
+    ticket.consolePresentation("\nTicket updated!");
+    return null;
+  }
+
+  public static String payTicket() {
+    Ticket ticket = getTicket();
+    if(ticket == null) {
+      System.err.println("Apparently that ticket doesn't exist!");
+      return "Try another one!";
+    }
+    ticket.consolePresentation("Ticket to pay!");
+    boolean wantsPay = Main.askYesNo("Proceed paymanet?? [Y]/[N]");
+    if(!wantsPay) return null;
+    ticket.payTicket();
+    ticket.consolePresentation("\nTicket updated!:");
     return null;
   }
 
