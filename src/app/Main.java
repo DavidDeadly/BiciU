@@ -22,13 +22,13 @@ public class Main {
   }
 
   private static String appFlow(String userOption) {
-    String msg = null;
+    String msg;
     switch (userOption) {
       case "1" -> msg = Menu.registerUser();
       case "2" -> msg = Menu.borrowBicycle();
       case "3" -> msg = Menu.returnBicycle();
       case "4" -> msg = Menu.payTicket();
-      case "5" -> System.out.println("Tickets history...");
+      case "5" -> msg = Menu.ticketsHistory();
       default -> {
         System.err.println("INVALID OPTION!!");
         msg = "Please select a valid option!!";
